@@ -1,0 +1,19 @@
+.bgSuccess {
+  background-color: var(--bg-success);
+}
+
+.bgError {
+  background-color: var(--bg-error);
+}
+
+.status {
+  padding: 8px;
+  position: absolute;
+  border-radius: 4px;
+  bottom: 32px;
+  right: 32px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+

@@ -1,0 +1,115 @@
+.sideBar {
+  background-color: var(--bg-primary);
+  min-width: 224px;
+  max-width: 224px;
+  min-height: 100vh;
+  position: fixed;
+  text-align: left;
+  padding-top: 24px;
+}
+
+.closeIcon {
+  font-size: 30px;
+  color: #fff;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.pageItem {
+  padding: 16px;
+  color: #fff;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.selectedPage {
+  font-weight: bold;
+}
+
+.header {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  box-shadow: 3px 3px 10px #545454;
+  position: fixed;
+  width: calc(100vw - 240px);
+  left: 224px;
+  z-index: 2;
+}
+
+.headerIcon {
+  color: var(--bg-primary);
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0px 16px 0px 4px;
+  cursor: pointer;
+}
+
+.menuIcon {
+  display: none;
+}
+
+.divSearch {
+  display: flex;
+  border: 1px solid;
+  border-radius: 4px;
+}
+
+.searchInp {
+  flex-grow: 1;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+.searchIcon {
+  padding: 4px 8px;
+  background-color: var(--bg-primary);
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.pageContent {
+  position: absolute;
+  top: 48px;
+  left: 224px;
+  padding: 16px;
+  margin: 16px;
+  width: calc(100vw - 224px - 32px - 40px);
+  min-height: calc(100vh - 96px);
+}
+
+@media screen and (max-width: 750px) {
+  .sideBar {
+    display: none;
+    z-index: 4;
+  }
+
+  .header {
+    left: 0px;
+    width: calc(100vw - 16px);
+  }
+
+  .searchInp {
+    display: none;
+  }
+
+  .searchIcon {
+    border-radius: 4px;
+  }
+
+  .pageContent {
+    left: 0px;
+  }
+
+  .menuIcon {
+    display: block;
+  }
+}
+
+.sideBarMobile {
+  display: block !important;
+}

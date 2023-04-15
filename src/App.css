@@ -1,5 +1,12 @@
+:root {
+  --bg-primary: #34cfeb;
+  --bg-success: #03fc6f;
+  --bg-error: #fc0303;
+}
+
 .App {
   text-align: center;
+  position: relative;
 }
 
 .App-logo {
@@ -32,6 +39,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

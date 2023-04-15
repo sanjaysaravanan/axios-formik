@@ -1,0 +1,45 @@
+.moviesDiv {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.movie {
+  border: 1px solid;
+  text-align: center;
+  margin: 8px;
+  position: relative;
+}
+
+.editIcon {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  font-size: 24px;
+}
+
+.deleteIcon {
+  position: absolute;
+  top: 40px;
+  right: 5px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.movie>h6 {
+  margin: 8px;
+}
+
+.movieImg {
+  height: 200px;
+  width: 150px;
+}
+
+.bookBtn {
+  background-color: var(--bg-primary);
+  border-radius: 4px;
+  border: none;
+  color: #fff;
+  padding: 4px 8px;
+  font-size: 16px;
+  margin: 8px;
+}
