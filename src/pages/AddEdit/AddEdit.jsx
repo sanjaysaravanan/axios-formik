@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 import { useFormik } from 'formik';
@@ -7,6 +7,7 @@ import { MdInfoOutline, MdWarning } from 'react-icons/md';
 
 import styles from './addedit.module.css';
 import { movieInstance } from '../../axios/movieIntance';
+import ThemeMode from '../../ThemeMode';
 
 
 const movieSchema = yup.object().shape({
@@ -23,6 +24,8 @@ const movieSchema = yup.object().shape({
 const AddEdit = () => {
 
   const { id } = useParams();
+
+  const { mode } = useContext(ThemeMode)
 
   const movieForm = useFormik({
     initialValues: { // key value pair of the form data
@@ -54,7 +57,7 @@ const AddEdit = () => {
 
   return (
     <div
-      className={styles.root}
+      className={`${styles.root} ${mode === 'dark' ? styles.darkColor : ''}`}
     >
       <h3
         style={{ margin: '4px 0' }}

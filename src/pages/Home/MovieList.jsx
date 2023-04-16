@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaHeart } from 'react-icons/fa';
+import { FiHeart } from 'react-icons/fi';
 import { MdDelete } from 'react-icons/md'
 import { Link } from 'react-router-dom';
 
 import styles from './movie.module.css';
 import { movieInstance } from '../../axios/movieIntance';
+import { useDispatch, useSelector } from 'react-redux';
 
 const MovieItem = ({
   imageUrl,
@@ -15,6 +17,10 @@ const MovieItem = ({
   id,
   deleteMovie
 }) => {
+
+  const wishReducer = useSelector(state => state.wishReducer);
+  const dispatch = useDispatch();
+
   return (
     <div
       className={styles.movie}
@@ -30,14 +36,41 @@ const MovieItem = ({
           color: '#000'
         }}
       >
-        <FaEdit className={styles.editIcon} />
+        <div
+          className={`${styles.actionIcon} ${styles.editIcon}`}
+        >
+          <FaEdit />
+        </div>
       </Link>
-      <MdDelete
-        className={styles.deleteIcon}
-        onClick={() => {
-          deleteMovie(id);
-        }}
-      />
+      <div
+        className={`${styles.actionIcon} ${styles.deleteIcon}`}
+      >
+        <MdDelete
+          onClick={() => {
+            deleteMovie(id);
+          }}
+        />
+      </div>
+      {wishReducer.wishList.find(({ id: movieId }) => movieId === id) ?
+        <FaHeart
+          onClick={() => {
+            dispatch({
+              type: 'REMOVE_WISH', movieId: id
+            });
+          }}
+          fontSize={'20px'} color="#f00" />
+        :
+        <FiHeart onClick={() => {
+          dispatch({
+            type: 'ADD_WISH', movieItem: {
+              imageUrl,
+              title,
+              language,
+              rating,
+              id,
+            }
+          });
+        }} fontSize={'20px'} />}
     </div>
   )
 }

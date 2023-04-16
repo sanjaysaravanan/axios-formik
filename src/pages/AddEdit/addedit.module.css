@@ -5,6 +5,10 @@
   max-width: 600px;
 }
 
+.darkColor {
+  color: #fff !important;
+}
+
 .inputEdit {
   padding: 8px;
   border-radius: 4px;
@@ -12,6 +16,12 @@
   width: calc(100% - 20px);
   border: 1px solid #ccc;
   outline-color: var(--bg-primary);
+  background-color: inherit;
+  color: inherit;
+}
+
+option {
+  color: #000;
 }
 
 .submitBtn {

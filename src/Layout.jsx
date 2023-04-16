@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
-import { FaSearch, FaHome, FaList, FaPlus } from 'react-icons/fa';
+import { FaSearch, FaHome, FaList, FaPlus, FaHeart } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { MdLightMode, MdClose } from 'react-icons/md';
+import { MdLightMode, MdClose, MdDarkMode } from 'react-icons/md';
 import { Link, Outlet } from 'react-router-dom';
 
 import styles from './layout.module.css';
+import ThemeMode from './ThemeMode';
+import { useSelector } from 'react-redux';
 
 const pages = [
   {
@@ -21,6 +23,11 @@ const pages = [
   {
     pathName: '/addMovie',
     pageName: 'Add Movie',
+    Icon: FaPlus
+  },
+  {
+    pathName: '/reduxStates',
+    pageName: 'Redux States',
     Icon: FaPlus
   }
 ];
@@ -53,52 +60,73 @@ const Layout = () => {
 
   const [openSideBar, setSideBar] = useState(false);
 
+  const [mode, setMode] = useState('light');
+
+  const wishReducer = useSelector(state => state.wishReducer);
+
   const handleSidebar = (value) => {
     setSideBar(value);
   }
 
   return (
-    <div
-      style={{
-        position: 'relative'
-      }}
-    >
+    <ThemeMode.Provider value={{ mode, setMode }} >
       <div
-        className={`${styles.sideBar} ${openSideBar ? styles.sideBarMobile : ''}`}
+        style={{
+          position: 'relative'
+        }}
       >
-        <MdClose
-          className={`${styles.closeIcon} ${styles.menuIcon}`}
-          onClick={() => handleSidebar(false)}
-        />
-        {pages.map((page) => (
-          <PageLink key={page.pageName} {...page} />
-        ))}
-      </div>
-      <div
-        className={styles.header}
-      >
-        <GiHamburgerMenu
-          className={`${styles.headerIcon} ${styles.menuIcon}`}
-          onClick={() => handleSidebar(true)}
-        />
-        <div className={styles.divSearch}>
-          <input
-            placeholder='Search something ...'
-            className={styles.searchInp}
+        <div
+          className={`${styles.sideBar} ${mode === 'dark' ? styles.darkMode : ''} ${openSideBar ? styles.sideBarMobile : ''}`}
+        >
+          <MdClose
+            className={`${styles.closeIcon} ${styles.menuIcon}`}
+            onClick={() => handleSidebar(false)}
           />
-          <div className={styles.searchIcon} >
-            <FaSearch color="#fff" />
-          </div>
+          {pages.map((page) => (
+            <PageLink key={page.pageName} {...page} />
+          ))}
         </div>
-        <div style={{ flexGrow: 1 }} ></div>
-        <MdLightMode className={styles.headerIcon} />
+        <div
+          className={`${styles.header} ${mode === 'dark' ? styles.darkMode : ''}`}
+        >
+          <GiHamburgerMenu
+            className={`${styles.headerIcon} ${styles.menuIcon}`}
+            onClick={() => handleSidebar(true)}
+          />
+          <div className={styles.divSearch}>
+            <input
+              placeholder='Search something ...'
+              className={`${styles.searchInp} ${mode === 'dark' ? styles.lightDark : ''}`}
+              style={{
+                color: mode === 'dark' ? '#fff' : '#000',
+              }}
+            />
+            <div className={`${styles.searchIcon} ${mode === 'dark' ? styles.darkMode : ''}`} >
+              <FaSearch color="#fff" />
+            </div>
+          </div>
+          <div style={{ flexGrow: 1 }} ></div>
+          <FaHeart color='#f00' fontSize={'20px'} />({wishReducer.wishList.length})
+          {mode === 'light' && <MdDarkMode
+            className={styles.headerIcon}
+            onClick={() => {
+              setMode('dark');
+            }}
+          />}
+          {mode === 'dark' && <MdLightMode
+            className={styles.headerIcon}
+            onClick={() => {
+              setMode('light');
+            }}
+          />}
+        </div>
+        <div
+          className={`${styles.pageContent} ${mode === 'dark' ? styles.lightDark : ''}`}
+        >
+          <Outlet />
+        </div>
       </div>
-      <div
-        className={styles.pageContent}
-      >
-        <Outlet />
-      </div>
-    </div>
+    </ThemeMode.Provider>
   )
 }
 

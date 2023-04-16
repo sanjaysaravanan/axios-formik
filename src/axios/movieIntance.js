@@ -19,15 +19,15 @@ movieInstance.interceptors.request.use(function (config) {
 movieInstance.interceptors.response.use(function (response) {
   // Any status code that lie within the range of 2xx cause this function to trigger
   // Do something with response data
-  if (response.config.method === 'get') {
-    alert('Data Loaded Successfully');
-  } else if (response.config.method === 'post') {
-    alert('Data Created Successfully');
-  } else if (response.config.method === 'put') {
-    alert('Data Edited Successfully');
-  } else if (response.config.method === 'delete') {
-    alert('Data Deleted Successfully');
-  }
+  // if (response.config.method === 'get') {
+  //   alert('Data Loaded Successfully');
+  // } else if (response.config.method === 'post') {
+  //   alert('Data Created Successfully');
+  // } else if (response.config.method === 'put') {
+  //   alert('Data Edited Successfully');
+  // } else if (response.config.method === 'delete') {
+  //   alert('Data Deleted Successfully');
+  // }
   return response;
 }, function (error) {
   // Any status codes that falls outside the range of 2xx cause this function to trigger
