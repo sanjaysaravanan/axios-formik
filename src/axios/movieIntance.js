@@ -2,8 +2,11 @@ import axios from "axios";
 
 
 const movieInstance = axios.create({
-  baseURL: 'https://63f9bdce897af748dcc2d723.mockapi.io/movie',
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/movies`,
   timeout: 5000,
+  headers: {
+    'Access-Control-Allow-Origin': process.env.REACT_APP_BACKEND_URL
+  }
 });
 
 movieInstance.interceptors.request.use(function (config) {
