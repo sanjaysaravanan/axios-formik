@@ -41,10 +41,22 @@ movieInstance.interceptors.response.use(function (response) {
   // } else if (response.config.method === 'delete') {
   //   alert('Data Deleted Successfully');
   // }
+
+  console.log('Line 45', response)
+  if (response.status === 401) {
+    localStorage.clear();
+  }
+
   return response;
 }, function (error) {
   // Any status codes that falls outside the range of 2xx cause this function to trigger
   // Do something with response error
+  if (error.response.status === 401) {
+    localStorage.clear();
+    // not the best solution
+    // eslint-disable-next-line no-restricted-globals
+    // location.reload();
+  }
   return Promise.reject(error);
 });
 

@@ -19,8 +19,24 @@ const MovieItem = ({
   deleteMovie
 }) => {
   const { accessToken } = JSON.parse(localStorage.getItem('user_details') || '{}');
+  // const [token, setToken] = useState(accessToken);
   const wishReducer = useSelector(state => state.wishReducer);
   const dispatch = useDispatch();
+
+  // useEffect(() => {
+
+  //   function checkUserData() {
+  //     const { accessToken } = JSON.parse(localStorage.getItem('user_details') || '{}');
+
+  //     setToken(accessToken)
+  //   }
+
+  //   window.addEventListener('storage', checkUserData);
+
+  //   return () => {
+  //     window.removeEventListener('storage', checkUserData);
+  //   }
+  // }, [])
 
   if (accessToken === undefined) {
     return <Navigate to='/login' replace />
