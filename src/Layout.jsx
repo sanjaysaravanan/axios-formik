@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import jwt_decode from "jwt-decode";
 
 import { FaSearch, FaHome, FaList, FaPlus, FaHeart } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { MdLightMode, MdClose, MdDarkMode } from 'react-icons/md';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Navigate, Outlet } from 'react-router-dom';
 
 import styles from './layout.module.css';
 import ThemeMode from './ThemeMode';
@@ -14,21 +15,35 @@ const pages = [
     pathName: '/',
     pageName: 'Home',
     Icon: FaHome,
+    roles: [
+      'user',
+      'admin'
+    ]
   },
   {
     pathName: '/movies',
     pageName: 'Movies',
     Icon: FaList,
+    roles: [
+      'user',
+      "admin"
+    ]
   },
   {
     pathName: '/addMovie',
     pageName: 'Add Movie',
-    Icon: FaPlus
+    Icon: FaPlus,
+    roles: [
+      'admin'
+    ]
   },
   {
     pathName: '/reduxStates',
     pageName: 'Redux States',
-    Icon: FaPlus
+    Icon: FaPlus,
+    roles: [
+      'admin'
+    ]
   }
 ];
 
@@ -58,6 +73,7 @@ const PageLink = ({ pathName, pageName, Icon }) => {
 
 const Layout = () => {
 
+  const { accessToken } = JSON.parse(localStorage.getItem('user_details') || '{}');
   const [openSideBar, setSideBar] = useState(false);
 
   const [mode, setMode] = useState('light');
@@ -68,6 +84,11 @@ const Layout = () => {
     setSideBar(value);
   }
 
+  if (accessToken === undefined) {
+    return <Navigate to="/login" replace />
+  }
+
+  const { role } = jwt_decode(accessToken);
   return (
     <ThemeMode.Provider value={{ mode, setMode }} >
       <div
@@ -82,7 +103,7 @@ const Layout = () => {
             className={`${styles.closeIcon} ${styles.menuIcon}`}
             onClick={() => handleSidebar(false)}
           />
-          {pages.map((page) => (
+          {pages.filter(({ roles }) => roles.includes(role)).map((page) => (
             <PageLink key={page.pageName} {...page} />
           ))}
         </div>

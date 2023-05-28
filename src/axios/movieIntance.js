@@ -4,15 +4,25 @@ import axios from "axios";
 const movieInstance = axios.create({
   baseURL: `${process.env.REACT_APP_BACKEND_URL}/movies`,
   timeout: 5000,
-  headers: {
-    'Access-Control-Allow-Origin': process.env.REACT_APP_BACKEND_URL
-  }
+});
+
+const usersInstance = axios.create({
+  baseURL: `${process.env.REACT_APP_BACKEND_URL}/users`,
+  timeout: 5000,
 });
 
 movieInstance.interceptors.request.use(function (config) {
   // Do something before request is sent
   console.log('React Going to make API with config', config);
-  return config;
+  const { accessToken } = JSON.parse(localStorage.getItem('user_details') || '{}');
+  const newConfig = {
+    ...config,
+    headers: {
+      ...config.headers,
+      'accesstoken': accessToken
+    }
+  }
+  return newConfig;
 }, function (error) {
   // Do something with request error
   return Promise.reject(error);
@@ -39,5 +49,6 @@ movieInstance.interceptors.response.use(function (response) {
 });
 
 export {
-  movieInstance
+  movieInstance,
+  usersInstance
 }

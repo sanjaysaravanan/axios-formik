@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import jwt_decode from "jwt-decode";
 
 import { FaEdit, FaHeart } from 'react-icons/fa';
 import { FiHeart } from 'react-icons/fi';
 import { MdDelete } from 'react-icons/md'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 import styles from './movie.module.css';
 import { movieInstance } from '../../axios/movieIntance';
@@ -17,9 +18,15 @@ const MovieItem = ({
   id,
   deleteMovie
 }) => {
-
+  const { accessToken } = JSON.parse(localStorage.getItem('user_details') || '{}');
   const wishReducer = useSelector(state => state.wishReducer);
   const dispatch = useDispatch();
+
+  if (accessToken === undefined) {
+    return <Navigate to='/login' replace />
+  }
+
+  const { role } = jwt_decode(accessToken);
 
   return (
     <div
@@ -29,7 +36,7 @@ const MovieItem = ({
       <h6>{title}</h6>
       <h6>{language}</h6>
       <h6>{rating}</h6>
-      <Link
+      {role === 'admin' && <Link
         to={`/editMovie/${id}`}
         style={{
           textDecoration: 'none',
@@ -41,8 +48,8 @@ const MovieItem = ({
         >
           <FaEdit />
         </div>
-      </Link>
-      <div
+      </Link>}
+      {role === 'admin' && <div
         className={`${styles.actionIcon} ${styles.deleteIcon}`}
       >
         <MdDelete
@@ -50,7 +57,7 @@ const MovieItem = ({
             deleteMovie(id);
           }}
         />
-      </div>
+      </div>}
       {wishReducer.wishList.find(({ id: movieId }) => movieId === id) ?
         <FaHeart
           onClick={() => {
