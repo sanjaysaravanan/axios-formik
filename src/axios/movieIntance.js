@@ -55,7 +55,7 @@ movieInstance.interceptors.response.use(function (response) {
     localStorage.clear();
     // not the best solution
     // eslint-disable-next-line no-restricted-globals
-    // location.reload();
+    location.reload();
   }
   return Promise.reject(error);
 });
